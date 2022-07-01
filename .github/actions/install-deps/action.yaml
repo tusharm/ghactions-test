@@ -1,0 +1,22 @@
+name: install-dependencies
+description: Install package dependencies and use cache
+
+inputs:
+  language:
+    description: PHP / Nodejs / Python
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/cache@v3
+      if: ${{ inputs.language == 'python' }}
+      continue-on-error: true
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - run: pip install
+      if: ${{ inputs.language == 'python' }}
+      shell: bash
