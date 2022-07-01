@@ -6,3 +6,8 @@ jobs:
     steps:
       - name: Print a greeting
         run: echo 'Hello World'
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+      - run: python main.py
