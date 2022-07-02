@@ -1,15 +1,22 @@
 name: install-dependencies
 description: Install package dependencies and use cache
-
+inputs:
+  install:
+    description: Application install command ( eg. yarn install / composer install / pip install )
+    required: true
 runs:
   using: "composite"
   steps:
+    - uses: actions/cache@v3
+      continue-on-error: true
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
     - uses: actions/setup-python@v4
       with:
-        python-version: '3.9'
-        cache: 'pip'      
-        cache-dependency-path: |
-          **/requirements-dev.txt
-          **/requirements.txt
+        python-version: 3.9
+        cache: pip
     - run: pip install -r requirements.txt -r requirements-dev.txt
       shell: bash

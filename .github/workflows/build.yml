@@ -9,9 +9,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: hipagesgroup/actions/install-dependencies@master
-        with:
-          language: Python
-          version: 3.9
-          cache: pip
+      - uses: ./.github/actions/install-deps
       - run: python main.py
